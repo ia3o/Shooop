@@ -6,10 +6,15 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXFileReference section */
+		A306A60C2D404FA400FF8E92 /* Shooop.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = Shooop.html; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
 /* Begin PBXGroup section */
 		A306A6052D404F4500FF8E92 = {
 			isa = PBXGroup;
 			children = (
+				A306A60C2D404FA400FF8E92 /* Shooop.html */,
 			);
 			sourceTree = "<group>";
 		};
