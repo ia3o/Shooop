@@ -5,16 +5,8 @@ async function initializePage() {
     try {
         const products = await Services.store.getProducts();
         
-        // Check if we're on the product page
-        if (window.location.pathname.includes('product.html')) {
-            const urlParams = new URLSearchParams(window.location.search);
-            const productId = urlParams.get('id');
-            const product = products.find(p => p.id === productId);
-            displayProductDetails(product);
-        } else {
-            // Display products grid on main page
-            displayProducts(products);
-        }
+        // Display products grid on main page
+        displayProducts(products);
 
         // Initialize cart
         Services.store.cart.updateUI();
@@ -36,96 +28,16 @@ function displayProducts(products) {
 
     container.innerHTML = featuredProducts.map(product => `
         <div class="product-card">
-            <a href="product.html?id=${product.id}" class="product-link">
-                <img src="${product.images[0]}" alt="${product.name}" loading="lazy">
-                <div class="product-info">
-                    <h3>${product.name}</h3>
-                    <p class="price">$${product.price.toFixed(2)}</p>
-                </div>
-            </a>
+            <img src="${product.images[0]}" alt="${product.name}" loading="lazy">
+            <div class="product-info">
+                <h3>${product.name}</h3>
+                <p class="price">$${product.price.toFixed(2)}</p>
+            </div>
         </div>
     `).join('');
 }
 
-function displayProductDetails(product) {
-    if (!product) {
-        window.location.href = '404.html';
-        return;
-    }
-
-    // Update page title and meta description
-    document.title = `${product.name} - Shooop`;
-    document.querySelector('meta[name="description"]').content = product.description;
-
-    // Update product details
-    const productDetails = document.getElementById('product-details');
-    productDetails.innerHTML = `
-        <div class="product-images">
-            <img id="mainImage" src="${product.images[0]}" alt="${product.name}">
-            <div id="thumbnailGallery" class="thumbnail-gallery">
-                ${product.images.map(img => `
-                    <img src="${img}" alt="${product.name}" 
-                         onclick="updateMainImage('${img}')"
-                         class="thumbnail">
-                `).join('')}
-            </div>
-        </div>
-        
-        <div class="product-info">
-            <h1>${product.name}</h1>
-            <p class="price">$${product.price.toFixed(2)}</p>
-            
-            ${product.colors.length ? `
-                <div class="option-section">
-                    <h3>Color</h3>
-                    <div class="color-options">
-                        ${product.colors.map(color => `
-                            <button class="color-option" 
-                                    data-color="${color}"
-                                    style="background-color: ${color}">
-                            </button>
-                        `).join('')}
-                    </div>
-                </div>
-            ` : ''}
-            
-            ${product.sizes.length ? `
-                <div class="option-section">
-                    <h3>Size</h3>
-                    <div class="size-options">
-                        ${product.sizes.map(size => `
-                            <button class="size-option" data-size="${size}">
-                                ${size}
-                            </button>
-                        `).join('')}
-                    </div>
-                </div>
-            ` : ''}
-            
-            <div class="quantity">
-                <label for="quantity">Quantity:</label>
-                <input type="number" id="quantity" value="1" min="1">
-            </div>
-            
-            <button class="add-to-cart-btn" 
-                    onclick="addToCart('${product.id}')"
-                    ${!product.inStock ? 'disabled' : ''}>
-                ${product.inStock ? 'Add to Cart' : 'Out of Stock'}
-            </button>
-            
-            <div class="product-description">
-                <h2>Description</h2>
-                <p>${product.description}</p>
-            </div>
-        </div>
-    `;
-}
-
 // Helper functions
-window.updateMainImage = function(imgSrc) {
-    document.getElementById('mainImage').src = imgSrc;
-};
-
 window.addToCart = function(productId, event) {
     event?.preventDefault();
     const quantity = parseInt(document.getElementById('quantity')?.value || 1);

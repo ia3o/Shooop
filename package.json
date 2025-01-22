@@ -1,5 +1,0 @@
-{
-  "scripts": {
-    "generate": "node js/generate-products.js"
-  }
-} 
