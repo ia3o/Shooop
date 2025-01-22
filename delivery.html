@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Delivery Options - Shooop">
+    <title>Delivery Options - Shooop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="cart-header">
+            <div class="logo-container">
+                <a href="index.html" class="logo-link">
+                    <h1 class="logo logo-small">Shooop</h1>
+                </a>
+            </div>
+            <div class="cart-container">
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="checkout-container">
+            <div class="checkout-steps">
+                <div class="step active">Delivery</div>
+                <div class="step">Payment</div>
+            </div>
+
+            <form id="deliveryForm" class="checkout-form">
+                <h2>Choose Delivery Option</h2>
+                
+                <div class="delivery-options">
+                    <div class="delivery-option">
+                        <input type="radio" id="pickup" name="deliveryMethod" value="pickup">
+                        <label for="pickup">Pick Up (Local Only)</label>
+                        
+                        <div class="pickup-details hidden" id="pickupDetails">
+                            <div class="contact-choice">
+                                <input type="email" id="pickupEmail" placeholder="Email Address">
+                                <span class="or-divider">or</span>
+                                <input type="tel" id="pickupPhone" placeholder="Phone Number">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="delivery-option">
+                        <input type="radio" id="ship" name="deliveryMethod" value="ship">
+                        <label for="ship">Ship (U.S.)</label>
+                        
+                        <div class="shipping-details hidden" id="shippingDetails">
+                            <input type="text" id="fullName" placeholder="Full Name" required>
+                            <input type="email" id="shippingEmail" placeholder="Email Address" required>
+                            <input type="text" id="address" placeholder="Street Address" required>
+                            <input type="text" id="aptSuite" placeholder="Apt/Suite (optional)">
+                            <div class="address-group">
+                                <input type="text" id="city" placeholder="City" required>
+                                <input type="text" id="state" placeholder="State" required>
+                                <input type="text" id="zipCode" placeholder="ZIP Code" required>
+                            </div>
+                            <input type="tel" id="shippingPhone" placeholder="Phone Number" required>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="proceed-btn">Proceed to Payment</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="js/checkout.js"></script>
+</body>
+</html> 

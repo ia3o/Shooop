@@ -1,0 +1,58 @@
+{
+    "products": [
+        {
+            "id": "classic-tee-001",
+            "name": "Classic Cotton T-Shirt",
+            "price": 29.99,
+            "description": "Our signature classic t-shirt made from 100% organic cotton. Features a comfortable fit and durability that lasts through countless washes. Perfect for everyday wear.",
+            "images": [
+                "/images/products/classic-tee-white-front.jpg",
+                "/images/products/classic-tee-white-back.jpg",
+                "/images/products/classic-tee-white-detail.jpg"
+            ],
+            "options": {
+                "colors": ["White", "Black", "Navy", "Gray"],
+                "sizes": ["XS", "S", "M", "L", "XL"]
+            },
+            "category": "t-shirts",
+            "inStock": true,
+            "featured": true
+        },
+        {
+            "id": "summer-dress-001",
+            "name": "Summer Breeze Dress",
+            "price": 79.99,
+            "description": "Light and airy summer dress perfect for warm days. Made from breathable fabric with a flattering cut that suits any occasion. Features adjustable straps and side pockets.",
+            "images": [
+                "/images/products/summer-dress-blue-front.jpg",
+                "/images/products/summer-dress-blue-back.jpg",
+                "/images/products/summer-dress-blue-detail.jpg"
+            ],
+            "options": {
+                "colors": ["Sky Blue", "Coral", "Mint", "Lavender"],
+                "sizes": ["XS", "S", "M", "L"]
+            },
+            "category": "dresses",
+            "inStock": true,
+            "featured": false
+        },
+        {
+            "id": "denim-jacket-001",
+            "name": "Vintage Denim Jacket",
+            "price": 89.99,
+            "description": "Classic denim jacket with a vintage wash. Features traditional button closures, chest pockets, and side pockets. Perfect for layering in any season.",
+            "images": [
+                "/images/products/denim-jacket-blue-front.jpg",
+                "/images/products/denim-jacket-blue-back.jpg",
+                "/images/products/denim-jacket-blue-detail.jpg"
+            ],
+            "options": {
+                "colors": ["Light Wash", "Medium Wash", "Dark Wash"],
+                "sizes": ["S", "M", "L", "XL"]
+            },
+            "category": "outerwear",
+            "inStock": true,
+            "featured": true
+        }
+    ]
+} 
