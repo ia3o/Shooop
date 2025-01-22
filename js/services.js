@@ -43,17 +43,28 @@ export const Services = {
     auth: {
         handleLogin: async function(response) {
             try {
+                console.log('Login response received:', response);
                 const token = this.decodeToken(response.credential);
+                console.log('Decoded token:', token);
+                
                 if (!token?.email) throw new Error('Invalid token');
 
+                console.log('Checking email:', token.email);
+                console.log('Allowed emails:', CONFIG.auth.allowedEmails);
+                
                 if (CONFIG.auth.allowedEmails.includes(token.email)) {
+                    console.log('Email authorized, setting cache...');
                     Services.utils.cache.set('auth_email', token.email, 24 * 60 * 60 * 1000);
                     Services.utils.cache.set('auth_token', response.credential, 24 * 60 * 60 * 1000);
                     
-                    // Check if we're on GitHub Pages
-                    if (window.location.hostname === 'ia3o.github.io') {
+                    const hostname = window.location.hostname;
+                    console.log('Current hostname:', hostname);
+                    
+                    if (hostname === 'ia3o.github.io') {
+                        console.log('Redirecting to GitHub Pages dashboard...');
                         window.location.href = '/shooop/admin/dashboard.html';
                     } else {
+                        console.log('Redirecting to local dashboard...');
                         window.location.href = '/admin/dashboard.html';
                     }
                 } else {
@@ -61,7 +72,8 @@ export const Services = {
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                alert(error.message);
+                console.error('Error stack:', error.stack);
+                alert('Login failed. Please check browser console for details.');
             }
         },
 
