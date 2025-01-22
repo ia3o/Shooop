@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Shooop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+    <div class="admin-dashboard">
+        <div class="admin-top-bar">
+            <a href="../index.html" class="back-to-site">
+                <i class="fas fa-arrow-left"></i> Back to Site
+            </a>
+            <button class="logout-btn" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+        
+        <div class="admin-header">
+            <h1 class="logo admin-dashboard-logo">Shooop Admin</h1>
+        </div>
+
+        <div id="admin-content">
+            <!-- Admin content will be loaded here -->
+        </div>
+    </div>
+
+    <script type="module" src="../js/services.js"></script>
+    <script type="module" src="../js/admin.js"></script>
+</body>
+</html> 

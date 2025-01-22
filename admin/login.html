@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Shooop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+    <main class="container">
+        <a href="../index.html" class="back-to-site">
+            <i class="fas fa-arrow-left"></i> Back to Site
+        </a>
+        
+        <div class="admin-login-container">
+            <h1 class="logo admin-logo">Shooop Admin</h1>
+            <div class="login-box">
+                <div id="g_id_onload"
+                     data-client_id="226067442640-6gkvp0ev0sang6b3epbif7nnqh0qtk4j.apps.googleusercontent.com"
+                     data-callback="handleCredentialResponse">
+                </div>
+                <div class="g_id_signin" data-type="standard"></div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="../js/services.js"></script>
+    <script type="module">
+        import { Services } from '../js/services.js';
+        window.handleCredentialResponse = (response) => {
+            Services.auth.handleLogin(response);
+        };
+    </script>
+</body>
+</html> 
