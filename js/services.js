@@ -49,7 +49,13 @@ export const Services = {
                 if (CONFIG.auth.allowedEmails.includes(token.email)) {
                     Services.utils.cache.set('auth_email', token.email, 24 * 60 * 60 * 1000);
                     Services.utils.cache.set('auth_token', response.credential, 24 * 60 * 60 * 1000);
-                    window.location.href = '/admin/dashboard.html';
+                    
+                    // Check if we're on GitHub Pages
+                    if (window.location.hostname === 'ia3o.github.io') {
+                        window.location.href = '/shooop/admin/dashboard.html';
+                    } else {
+                        window.location.href = '/admin/dashboard.html';
+                    }
                 } else {
                     throw new Error(`Unauthorized email: ${token.email}`);
                 }
