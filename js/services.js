@@ -57,16 +57,13 @@ export const Services = {
                     Services.utils.cache.set('auth_email', token.email, 24 * 60 * 60 * 1000);
                     Services.utils.cache.set('auth_token', response.credential, 24 * 60 * 60 * 1000);
                     
-                    const hostname = window.location.hostname;
-                    console.log('Current hostname:', hostname);
+                    // Get the base URL dynamically
+                    const baseUrl = window.location.pathname.includes('/shooop') 
+                        ? '/shooop' 
+                        : '';
                     
-                    if (hostname === 'ia3o.github.io') {
-                        console.log('Redirecting to GitHub Pages dashboard...');
-                        window.location.href = '/shooop/admin/dashboard.html';
-                    } else {
-                        console.log('Redirecting to local dashboard...');
-                        window.location.href = '/admin/dashboard.html';
-                    }
+                    console.log('Redirecting to dashboard...');
+                    window.location.href = `${baseUrl}/admin/dashboard.html`;
                 } else {
                     throw new Error(`Unauthorized email: ${token.email}`);
                 }
