@@ -9,24 +9,29 @@
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <div class="admin-dashboard">
-        <div class="admin-top-bar">
-            <a href="../index.html" class="back-to-site">
-                <i class="fas fa-arrow-left"></i> Back to Site
-            </a>
-            <button class="logout-btn" onclick="handleLogout()">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </button>
+    <header>
+        <div class="container">
+            <div class="header-content admin-header-content">
+                <a href="../index.html" class="logo">Shooop Admin</a>
+                <div class="admin-controls">
+                    <a href="../index.html" class="admin-btn back-to-site">
+                        <i class="fas fa-arrow-left"></i> Back to Site
+                    </a>
+                    <button class="admin-btn logout-btn" onclick="handleLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
         </div>
-        
-        <div class="admin-header">
-            <h1 class="logo admin-dashboard-logo">Shooop Admin</h1>
-        </div>
+    </header>
 
-        <div id="admin-content">
-            <!-- Admin content will be loaded here -->
+    <main class="container">
+        <div class="admin-dashboard">
+            <div id="admin-content" class="admin-content">
+                <!-- Admin content will be loaded here -->
+            </div>
         </div>
-    </div>
+    </main>
 
     <script type="module" src="../js/services.js"></script>
     <script type="module" src="../js/admin.js"></script>

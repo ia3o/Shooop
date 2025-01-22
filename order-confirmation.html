@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Order Confirmation - Shooop">
     <title>Order Confirmation - Shooop</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -31,13 +32,27 @@
         </div>
     </header>
 
-    <main class="container">
-        <div class="confirmation-message">
-            <i class="fas fa-check-circle"></i>
-            <h2>Thank You!</h2>
-            <p>Payment processing coming soon.</p>
-            <a href="index.html" class="button">Return to Shop</a>
+    <main>
+        <div class="order-confirmation-content container">
+            <h1 class="section-title">Order Confirmation</h1>
+            <div class="order-details-container">
+                <div id="order-details" class="order-details">
+                    <!-- Order details will be loaded here -->
+                </div>
+                <div class="order-summary">
+                    <div class="total">
+                        <span>Total Paid:</span>
+                        <span id="order-total">$0.00</span>
+                    </div>
+                    <button class="continue-shopping-btn" onclick="window.location.href='index.html'">
+                        Continue Shopping
+                    </button>
+                </div>
+            </div>
         </div>
     </main>
+
+    <script type="module" src="js/services.js"></script>
+    <script type="module" src="js/main.js"></script>
 </body>
 </html> 

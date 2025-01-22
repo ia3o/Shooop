@@ -1,18 +1,4 @@
-// Define config separately at the top
-const CONFIG = {
-    auth: {
-        googleClientId: '226067442640-6gkvp0ev0sang6b3epbif7nnqh0qtk4j.apps.googleusercontent.com',
-        allowedEmails: ['30adamaguilar@gmail.com']
-    },
-    cloudinary: {
-        cloudName: 'dbonimmnx',
-        uploadPreset: 'shooop_products'
-    },
-    sheets: {
-        apiKey: 'AIzaSyARmFYTh_LZeeaJlXT2zC4DtlIjwyiDUiI',
-        spreadsheetId: '1Bk4h5MsArYaI4EmKBdUaR_QrfwjWN7yw5FNhWJuIeoQ'
-    }
-};
+import { CONFIG } from './config.js';
 
 // Export Services with config
 export const Services = {
@@ -22,19 +8,28 @@ export const Services = {
     utils: {
         cache: {
             set: (key, data, duration) => {
-                localStorage.setItem(key, JSON.stringify({
-                    data,
-                    expiry: Date.now() + duration
-                }));
+                try {
+                    localStorage.setItem(key, JSON.stringify({
+                        data,
+                        expiry: Date.now() + duration
+                    }));
+                } catch (error) {
+                    console.error('Cache set error:', error);
+                }
             },
             get: (key) => {
-                const item = JSON.parse(localStorage.getItem(key) || 'null');
-                if (!item) return null;
-                if (Date.now() > item.expiry) {
-                    localStorage.removeItem(key);
+                try {
+                    const item = JSON.parse(localStorage.getItem(key) || 'null');
+                    if (!item) return null;
+                    if (Date.now() > item.expiry) {
+                        localStorage.removeItem(key);
+                        return null;
+                    }
+                    return item.data;
+                } catch (error) {
+                    console.error('Cache get error:', error);
                     return null;
                 }
-                return item.data;
             }
         },
         
@@ -46,25 +41,21 @@ export const Services = {
 
     // Auth methods
     auth: {
-        handleLogin: function(response) {
+        handleLogin: async function(response) {
             try {
-                console.log('Google response:', response);
-
-                const token = Services.auth.decodeToken(response.credential);
-                console.log('Decoded token:', token);
+                const token = this.decodeToken(response.credential);
+                if (!token?.email) throw new Error('Invalid token');
 
                 if (CONFIG.auth.allowedEmails.includes(token.email)) {
                     Services.utils.cache.set('auth_email', token.email, 24 * 60 * 60 * 1000);
                     Services.utils.cache.set('auth_token', response.credential, 24 * 60 * 60 * 1000);
-                    
                     window.location.href = '/admin/dashboard.html';
                 } else {
-                    console.log('Unauthorized email:', token.email);
-                    alert(`Unauthorized email address: ${token.email}`);
+                    throw new Error(`Unauthorized email: ${token.email}`);
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                alert('Login failed: ' + error.message);
+                alert(error.message);
             }
         },
 
@@ -108,16 +99,19 @@ export const Services = {
                 if (cached) return cached;
 
                 const response = await fetch(
-                    `https://sheets.googleapis.com/v4/spreadsheets/${this.config.sheets.spreadsheetId}/values/Sheet1!A2:J?key=${this.config.sheets.apiKey}`
+                    `https://sheets.googleapis.com/v4/spreadsheets/${CONFIG.sheets.spreadsheetId}/values/Sheet1!A2:J?key=${CONFIG.sheets.apiKey}`
                 );
                 
+                if (!response.ok) throw new Error('Failed to fetch products');
+                
                 const data = await response.json();
-                const products = this.parseProducts(data.values);
+                const products = this.parseProducts(data.values || []);
                 
                 this.utils.cache.set('products', products, 5 * 60 * 1000);
                 return products;
             } catch (error) {
-                return this.utils.handleError(error, 'store.getProducts');
+                console.error('getProducts error:', error);
+                return [];
             }
         },
 
