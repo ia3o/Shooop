@@ -169,17 +169,24 @@ function setupSearch() {
     });
 }
 
-// Update the existing handleSearch function
+// Update the handleSearch function to handle base URL
 window.handleSearch = function() {
     const searchInput = document.getElementById('search');
     const searchTerm = searchInput.value.trim();
     
-    if (window.location.pathname.includes('index.html') || window.location.pathname === '/') {
+    const baseUrl = window.location.pathname.includes('/shooop') 
+        ? '/shooop' 
+        : '';
+    
+    if (window.location.pathname.includes('index.html') || 
+        window.location.pathname === '/' || 
+        window.location.pathname === `${baseUrl}/`) {
         // Existing search logic for products page
-        // Your existing search code here
+        const query = searchInput.value.toLowerCase();
+        debouncedSearch(query);
     } else {
         // Redirect to index page with search term
-        window.location.href = `index.html?search=${encodeURIComponent(searchTerm)}`;
+        window.location.href = `${baseUrl}/index.html?search=${encodeURIComponent(searchTerm)}`;
     }
 }
 
