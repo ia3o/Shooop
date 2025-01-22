@@ -43,92 +43,39 @@ export const Services = {
 
     // Auth methods
     auth: {
-        handleLogin: async function(response) {
+        handleLogin: function() {
             try {
-                const token = this.decodeToken(response.credential);
-                if (!token?.email) throw new Error('Invalid token');
-
-                // Store the credential temporarily
-                const tempCredential = response.credential;
+                const password = document.getElementById('adminPassword').value;
                 
-                // Show password modal
-                const modal = document.getElementById('passwordModal');
-                const passwordInput = document.getElementById('adminPassword');
-                const submitBtn = document.getElementById('submitPassword');
-                const cancelBtn = document.getElementById('cancelPassword');
-                
-                modal.style.display = 'flex';
-                
-                // Handle submit
-                const handleSubmit = () => {
-                    const adminPassword = passwordInput.value;
+                // ShooopThereItIs
+                if (password === 'ShooopThereItIs') {
+                    Services.utils.cache.set('auth_token', 'admin_authenticated', 24 * 60 * 60 * 1000);
                     
-                    // Replace 'your-secure-password' with your actual password
-                    if (adminPassword === 'your-secure-password') {
-                        Services.utils.cache.set('auth_email', token.email, 24 * 60 * 60 * 1000);
-                        Services.utils.cache.set('auth_token', tempCredential, 24 * 60 * 60 * 1000);
-                        
-                        const baseUrl = window.location.pathname.includes('/shooop') 
-                            ? '/shooop' 
-                            : '';
-                        
-                        window.location.href = `${baseUrl}/admin/dashboard.html`;
-                    } else {
-                        alert('Incorrect admin password');
-                    }
-                };
-                
-                // Handle cancel
-                const handleCancel = () => {
-                    modal.style.display = 'none';
-                    passwordInput.value = '';
-                };
-                
-                // Event listeners
-                submitBtn.onclick = handleSubmit;
-                cancelBtn.onclick = handleCancel;
-                
-                // Allow Enter key to submit
-                passwordInput.onkeyup = (e) => {
-                    if (e.key === 'Enter') handleSubmit();
-                    if (e.key === 'Escape') handleCancel();
-                };
-                
+                    const baseUrl = window.location.pathname.includes('/shooop') 
+                        ? '/shooop' 
+                        : '';
+                    
+                    window.location.href = `${baseUrl}/admin/dashboard.html`;
+                } else {
+                    alert('Incorrect admin password');
+                }
             } catch (error) {
                 console.error('Login error:', error);
                 alert(error.message);
             }
         },
 
-        decodeToken: function(token) {
-            try {
-                const base64Url = token.split('.')[1];
-                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-                const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-                    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-                }).join(''));
-
-                return JSON.parse(jsonPayload);
-            } catch (error) {
-                console.error('Token decode error:', error);
-                throw new Error('Invalid token format');
-            }
-        },
-
         checkAuth: function() {
-            const email = Services.utils.cache.get('auth_email');
             const token = Services.utils.cache.get('auth_token');
-            
-            console.log('Checking auth:', { email, hasToken: !!token });
-            
-            if (!email || !token) return false;
-            return CONFIG.auth.allowedEmails.includes(email);
+            return token === 'admin_authenticated';
         },
 
         logout: function() {
-            Services.utils.cache.set('auth_email', null, 0);
             Services.utils.cache.set('auth_token', null, 0);
-            window.location.href = '/admin/login.html';
+            const baseUrl = window.location.pathname.includes('/shooop') 
+                ? '/shooop' 
+                : '';
+            window.location.href = `${baseUrl}/admin/login.html`;
         }
     },
 
