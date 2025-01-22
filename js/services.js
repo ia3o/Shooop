@@ -1,4 +1,6 @@
-import { CONFIG } from './config.js';
+import { CONFIG } from '/shooop/js/config.js';  // For GitHub Pages
+console.log('CONFIG loaded:', CONFIG);
+console.log('Allowed emails:', CONFIG.auth.allowedEmails);
 
 // Export Services with config
 export const Services = {
