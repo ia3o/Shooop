@@ -45,34 +45,58 @@ export const Services = {
     auth: {
         handleLogin: async function(response) {
             try {
-                console.log('Login response received:', response);
                 const token = this.decodeToken(response.credential);
-                console.log('Decoded token:', token);
-                
                 if (!token?.email) throw new Error('Invalid token');
 
-                console.log('Checking email:', token.email);
-                console.log('Allowed emails:', CONFIG.auth.allowedEmails);
+                // Store the credential temporarily
+                const tempCredential = response.credential;
                 
-                if (CONFIG.auth.allowedEmails.includes(token.email)) {
-                    console.log('Email authorized, setting cache...');
-                    Services.utils.cache.set('auth_email', token.email, 24 * 60 * 60 * 1000);
-                    Services.utils.cache.set('auth_token', response.credential, 24 * 60 * 60 * 1000);
+                // Show password modal
+                const modal = document.getElementById('passwordModal');
+                const passwordInput = document.getElementById('adminPassword');
+                const submitBtn = document.getElementById('submitPassword');
+                const cancelBtn = document.getElementById('cancelPassword');
+                
+                modal.style.display = 'flex';
+                
+                // Handle submit
+                const handleSubmit = () => {
+                    const adminPassword = passwordInput.value;
                     
-                    // Get the base URL dynamically
-                    const baseUrl = window.location.pathname.includes('/shooop') 
-                        ? '/shooop' 
-                        : '';
-                    
-                    console.log('Redirecting to dashboard...');
-                    window.location.href = `${baseUrl}/admin/dashboard.html`;
-                } else {
-                    throw new Error(`Unauthorized email: ${token.email}`);
-                }
+                    // Replace 'your-secure-password' with your actual password
+                    if (adminPassword === 'your-secure-password') {
+                        Services.utils.cache.set('auth_email', token.email, 24 * 60 * 60 * 1000);
+                        Services.utils.cache.set('auth_token', tempCredential, 24 * 60 * 60 * 1000);
+                        
+                        const baseUrl = window.location.pathname.includes('/shooop') 
+                            ? '/shooop' 
+                            : '';
+                        
+                        window.location.href = `${baseUrl}/admin/dashboard.html`;
+                    } else {
+                        alert('Incorrect admin password');
+                    }
+                };
+                
+                // Handle cancel
+                const handleCancel = () => {
+                    modal.style.display = 'none';
+                    passwordInput.value = '';
+                };
+                
+                // Event listeners
+                submitBtn.onclick = handleSubmit;
+                cancelBtn.onclick = handleCancel;
+                
+                // Allow Enter key to submit
+                passwordInput.onkeyup = (e) => {
+                    if (e.key === 'Enter') handleSubmit();
+                    if (e.key === 'Escape') handleCancel();
+                };
+                
             } catch (error) {
                 console.error('Login error:', error);
-                console.error('Error stack:', error.stack);
-                alert('Login failed. Please check browser console for details.');
+                alert(error.message);
             }
         },
 
