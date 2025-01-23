@@ -1,4 +1,4 @@
-import { CONFIG } from '/Shooop/js/config.js';  // For GitHub Pages
+import { CONFIG } from '/shooop/js/config.js';
 console.log('CONFIG loaded:', CONFIG);
 
 // Export Services with config
@@ -40,45 +40,7 @@ export const Services = {
         }
     },
 
-    // Auth methods
-    auth: {
-        handleLogin: function() {
-            try {
-                const password = document.getElementById('adminPassword').value;
-                
-                // ShooopThereItIs
-                if (password === 'ShooopThereItIs') {
-                    Services.utils.cache.set('auth_token', 'admin_authenticated', 24 * 60 * 60 * 1000);
-                    
-                    const baseUrl = window.location.pathname.includes('/Shooop') 
-                        ? '/Shooop'
-                        : '';
-                    
-                    window.location.href = `${baseUrl}/admin/dashboard.html`;
-                } else {
-                    alert('Incorrect admin password');
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                alert(error.message);
-            }
-        },
-
-        checkAuth: function() {
-            const token = Services.utils.cache.get('auth_token');
-            return token === 'admin_authenticated';
-        },
-
-        logout: function() {
-            Services.utils.cache.set('auth_token', null, 0);
-            const baseUrl = window.location.pathname.includes('/Shooop') 
-                ? '/Shooop'
-                : '';
-            window.location.href = `${baseUrl}/admin/login.html`;
-        }
-    },
-
-    // Products and Cart Management
+    // Store methods
     store: {
         async getProducts() {
             try {
@@ -92,7 +54,7 @@ export const Services = {
                 if (!response.ok) throw new Error('Failed to fetch products');
                 
                 const data = await response.json();
-                const products = this.parseProducts(data.values || []);
+                const products = Services.store.parseProducts(data.values || []);
                 
                 Services.utils.cache.set('products', products, 5 * 60 * 1000);
                 return products;
@@ -154,6 +116,43 @@ export const Services = {
                 return this.items.reduce((sum, item) => 
                     sum + (item.price * item.quantity), 0);
             }
+        }
+    },
+
+    // Auth methods
+    auth: {
+        handleLogin: function() {
+            try {
+                const password = document.getElementById('adminPassword').value;
+                
+                if (password === 'ShooopThereItIs') {
+                    Services.utils.cache.set('auth_token', 'admin_authenticated', 24 * 60 * 60 * 1000);
+                    
+                    const baseUrl = window.location.pathname.includes('/shooop') 
+                        ? '/shooop' 
+                        : '';
+                    
+                    window.location.href = `${baseUrl}/admin/dashboard.html`;
+                } else {
+                    alert('Incorrect admin password');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert(error.message);
+            }
+        },
+
+        checkAuth: function() {
+            const token = Services.utils.cache.get('auth_token');
+            return token === 'admin_authenticated';
+        },
+
+        logout: function() {
+            Services.utils.cache.set('auth_token', null, 0);
+            const baseUrl = window.location.pathname.includes('/shooop') 
+                ? '/shooop' 
+                : '';
+            window.location.href = `${baseUrl}/admin/login.html`;
         }
     }
 }; 
