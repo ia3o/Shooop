@@ -86,8 +86,8 @@ window.handleSearch = function() {
     const searchInput = document.getElementById('search');
     const searchTerm = searchInput.value.trim();
     
-    const baseUrl = window.location.pathname.includes('/shooop') 
-        ? '/shooop' 
+    const baseUrl = window.location.pathname.includes('/Shooop') 
+        ? '/Shooop' 
         : '';
     
     if (window.location.pathname.includes('index.html') || 

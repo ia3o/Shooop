@@ -51,8 +51,8 @@ export const Services = {
                 if (password === 'ShooopThereItIs') {
                     Services.utils.cache.set('auth_token', 'admin_authenticated', 24 * 60 * 60 * 1000);
                     
-                    const baseUrl = window.location.pathname.includes('/shooop') 
-                        ? '/shooop' 
+                    const baseUrl = window.location.pathname.includes('/Shooop') 
+                        ? '/Shooop'
                         : '';
                     
                     window.location.href = `${baseUrl}/admin/dashboard.html`;
@@ -72,8 +72,8 @@ export const Services = {
 
         logout: function() {
             Services.utils.cache.set('auth_token', null, 0);
-            const baseUrl = window.location.pathname.includes('/shooop') 
-                ? '/shooop' 
+            const baseUrl = window.location.pathname.includes('/Shooop') 
+                ? '/Shooop'
                 : '';
             window.location.href = `${baseUrl}/admin/login.html`;
         }

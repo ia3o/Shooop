@@ -3,8 +3,8 @@ import { Services } from './services.js';
 // Check authentication on admin pages
 function checkAdminAuth() {
     if (!Services.auth.checkAuth()) {
-        const baseUrl = window.location.pathname.includes('/shooop') 
-            ? '/shooop' 
+        const baseUrl = window.location.pathname.includes('/Shooop') 
+            ? '/Shooop' 
             : '';
         window.location.href = `${baseUrl}/admin/login.html`;
         return false;
