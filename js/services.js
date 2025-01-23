@@ -82,7 +82,7 @@ export const Services = {
     store: {
         async getProducts() {
             try {
-                const cached = this.utils.cache.get('products');
+                const cached = Services.utils.cache.get('products');
                 if (cached) return cached;
 
                 const response = await fetch(
@@ -94,7 +94,7 @@ export const Services = {
                 const data = await response.json();
                 const products = this.parseProducts(data.values || []);
                 
-                this.utils.cache.set('products', products, 5 * 60 * 1000);
+                Services.utils.cache.set('products', products, 5 * 60 * 1000);
                 return products;
             } catch (error) {
                 console.error('getProducts error:', error);
